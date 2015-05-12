@@ -8,13 +8,5 @@ libraryDependencies += "org.apache.spark" %% "spark-core" % "1.3.1"
 
 libraryDependencies += "org.apache.spark" %% "spark-hive-thriftserver" % "1.3.1"
 
-connectInput in run := true
+fork := true
 
-outputStrategy in run := Some (StdoutOutput)
-
-console := {
-  (runMain in Compile).toTask(
-    """
-      |Main
-    """.stripMargin).value
-}
