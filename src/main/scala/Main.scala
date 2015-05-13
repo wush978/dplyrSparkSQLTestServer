@@ -42,7 +42,6 @@ object Main {
     checkConnection()
     f"R CMD build $packagePath".!
     val fileName = ("ls" #| "grep dplyrSparkSQL" !!).split("\n").head
-    f"R CMD check --as-cran $fileName".!
-    System.exit(0)
+    System.exit(f"R CMD check --as-cran $fileName".!)
   }
 }
