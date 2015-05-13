@@ -31,17 +31,18 @@ object Main {
 
   def main(args : Array[String]) : Unit = {
     if (args.length < 1) throw new IllegalArgumentException("Usage: sbt \"run <source path>\"")
-    val package_path = args.head
-    val default_args : Array[String] = """
+    val packagePath = args.head
+    val defaultArgs : Array[String] = """
                                          |--class org.apache.spark.sql.hive.thriftserver.HiveThriftServer2
                                          |spark-internal
                                        """.stripMargin.replace('\n', ' ').split(" ").filter(_.size > 0)
     future {
-      SparkSubmit.main(default_args ++ args)
+      SparkSubmit.main(defaultArgs ++ args)
     }
     checkConnection()
-    f"R CMD build $package_path".!
-    f"R CMD check --as-cran $package_path*.tar.gz"
+    f"R CMD build $packagePath".!
+    val fileName = ("ls" #| "grep dplyrSparkSQL" !!).split("\n").head
+    f"R CMD check --as-cran $fileName".!
     System.exit(0)
   }
 }
