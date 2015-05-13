@@ -10,7 +10,7 @@ import org.apache.spark.deploy.SparkSubmit
  */
 object Main {
 
-  val driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
+  val driverName = "org.apache.hive.jdbc.HiveDriver";
 
   Class.forName(driverName)
 
@@ -18,7 +18,7 @@ object Main {
   def checkConnection() : Unit = {
     try {
       println("Test Connection...")
-      val con = DriverManager.getConnection("jdbc:hive2://localhost:10000", "", "")
+      val con = DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "hive", "")
     }
     catch {
       case e : SQLException => {
@@ -38,5 +38,6 @@ object Main {
     }
     checkConnection()
     println("Done!")
+    System.exit(0)
   }
 }
