@@ -4,6 +4,7 @@ import scala.annotation.tailrec
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import org.apache.spark.deploy.SparkSubmit
+import sys.process._
 
 /**
  * Created by wush on 2015/5/12.
@@ -29,6 +30,8 @@ object Main {
   }
 
   def main(args : Array[String]) : Unit = {
+    if (args.length < 1) throw new IllegalArgumentException("Usage: sbt \"run <source path>\"")
+    val package_path = args.head
     val default_args : Array[String] = """
                                          |--class org.apache.spark.sql.hive.thriftserver.HiveThriftServer2
                                          |spark-internal
@@ -37,7 +40,8 @@ object Main {
       SparkSubmit.main(default_args ++ args)
     }
     checkConnection()
-    println("Done!")
+    f"R CMD build $package_path".!
+    f"R CMD check --as-cran $package_path*.tar.gz"
     System.exit(0)
   }
 }
