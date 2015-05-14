@@ -10,4 +10,4 @@ libraryDependencies += "org.apache.spark" %% "spark-hive-thriftserver" % "1.3.1"
 
 fork := true
 
-javaOptions in run += "-Xmx1g -Xss1m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m"
+javaOptions in run += "-Xmx1g -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m"
