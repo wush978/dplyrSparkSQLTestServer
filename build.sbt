@@ -8,3 +8,4 @@ libraryDependencies += "org.apache.spark" %% "spark-core" % "1.3.1"
 
 libraryDependencies += "org.apache.spark" %% "spark-hive-thriftserver" % "1.3.1"
 
+fork := true

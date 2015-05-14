@@ -2,6 +2,7 @@ import java.sql.{SQLException, DriverManager}
 
 import scala.annotation.tailrec
 import scala.concurrent._
+import scala.concurrent.duration._
 import ExecutionContext.Implicits.global
 import org.apache.spark.deploy.SparkSubmit
 import sys.process._
@@ -36,12 +37,13 @@ object Main {
                                          |--class org.apache.spark.sql.hive.thriftserver.HiveThriftServer2
                                          |spark-internal
                                        """.stripMargin.replace('\n', ' ').split(" ").filter(_.size > 0)
-    future {
+    val sparkDaemon = future {
       SparkSubmit.main(defaultArgs ++ args)
     }
     checkConnection()
     f"R CMD build $packagePath".!
     val fileName = ("ls" #| "grep dplyrSparkSQL" !!).split("\n").head
-    System.exit(f"R CMD check --as-cran $fileName".!)
+    val code = f"R CMD check --as-cran $fileName".!
+    System.exit(0)
   }
 }
