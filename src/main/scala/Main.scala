@@ -44,6 +44,6 @@ object Main {
     f"R CMD build $packagePath".!
     val fileName = ("ls" #| "grep dplyrSparkSQL" !!).split("\n").head
     val code = f"R CMD check --as-cran $fileName".!
-    System.exit(0)
+    system.exit(f"cd $packagePath && ./travis-tool.sh run_tests".!)
   }
 }
