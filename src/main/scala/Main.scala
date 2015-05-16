@@ -5,6 +5,7 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import ExecutionContext.Implicits.global
 import org.apache.spark.deploy.SparkSubmit
+import java.io.File
 import sys.process._
 
 /**
@@ -41,9 +42,10 @@ object Main {
       SparkSubmit.main(defaultArgs ++ args)
     }
     checkConnection()
-    val code = f"cd $packagePath && ./travis-tool.sh run_tests".!
+    val cmd = f"cd $packagePath && ./travis-tool.sh run_tests"
+    val code = Process("./travis-tool.sh run_tests", new File(packagePath)).!
     if (code ==0) {
-      f"cd $packagePath && touch .success".!
+      Process("touch .success", new File(packagePath)).!
     }
     System.exit(0)
   }
