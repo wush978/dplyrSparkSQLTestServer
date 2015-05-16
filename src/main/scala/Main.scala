@@ -10,7 +10,7 @@ import sys.process._
 /**
  * Created by wush on 2015/5/12.
  */
-object Main {
+object Main extends App {
 
   val driverName = "org.apache.hive.jdbc.HiveDriver";
 
@@ -30,7 +30,7 @@ object Main {
     }
   }
 
-  def main(args : Array[String]) : Unit = {
+  override def main(args : Array[String]) : Unit = {
     if (args.length < 1) throw new IllegalArgumentException("Usage: sbt \"run <source path>\"")
     val packagePath = args.head
     val defaultArgs : Array[String] = """
@@ -44,6 +44,6 @@ object Main {
     f"R CMD build $packagePath".!
     val fileName = ("ls" #| "grep dplyrSparkSQL" !!).split("\n").head
     val code = f"R CMD check --as-cran $fileName".!
-    System.exit(f"cd $packagePath && ./travis-tool.sh run_tests".!)
+    sys.exit(f"cd $packagePath && ./travis-tool.sh run_tests".!)
   }
 }
