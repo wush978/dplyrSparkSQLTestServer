@@ -41,8 +41,6 @@ object Main {
       SparkSubmit.main(defaultArgs ++ args)
     }
     checkConnection()
-    f"R CMD build $packagePath".!
-    val fileName = ("ls" #| "grep dplyrSparkSQL" !!).split("\n").head
     val code = f"cd $packagePath && ./travis-tool.sh run_tests".!
     if (code ==0) {
       f"cd $packagePath && touch .success".!
