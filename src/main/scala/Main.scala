@@ -43,7 +43,10 @@ object Main {
     checkConnection()
     f"R CMD build $packagePath".!
     val fileName = ("ls" #| "grep dplyrSparkSQL" !!).split("\n").head
-    val code = f"R CMD check --as-cran $fileName".!
-    System.exit(f"cd $packagePath && ./travis-tool.sh run_tests".!)
+    val code = f"cd $packagePath && ./travis-tool.sh run_tests".!
+    if (code ==0) {
+      f"cd $packagePath && touch .success".!
+    }
+    System.exit(0)
   }
 }
