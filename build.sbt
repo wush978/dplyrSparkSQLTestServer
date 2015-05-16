@@ -10,4 +10,4 @@ libraryDependencies += "org.apache.spark" %% "spark-hive-thriftserver" % "1.3.1"
 
 fork := true
 
-javaOptions in run += "-Xmx1536M"
+javaOptions in run += "-Xmx3072M"
