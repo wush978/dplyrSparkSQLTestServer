@@ -31,6 +31,16 @@ object Main {
     }
   }
 
+  def checkMem() {
+    val mb = 1024 * 1024
+    val runtime = Runtime.getRuntime()
+    println("Heap utilization statistics [MB]")
+    println("Used memory: " + (runtime.totalMemory - runtime.freeMemory) / mb)
+    println("Free memory: " + runtime.freeMemory / mb)
+    println("Total memory: " + runtime.totalMemory / mb)
+    println("Max memory: " + runtime.maxMemory / mb)
+  }
+
   def main(args : Array[String]) : Unit = {
     if (args.length < 1) throw new IllegalArgumentException("Usage: sbt \"run <source path>\"")
     val packagePath = args.head
@@ -42,6 +52,7 @@ object Main {
       SparkSubmit.main(defaultArgs ++ args)
     }
     checkConnection()
+    checkMem()
     val cmd = f"cd $packagePath && ./travis-tool.sh run_tests"
     val code = Process("./travis-tool.sh run_tests", new File(packagePath)).!
     if (code ==0) {
