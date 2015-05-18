@@ -49,7 +49,13 @@ object Main {
                                          |spark-internal
                                        """.stripMargin.replace('\n', ' ').split(" ").filter(_.size > 0)
     val sparkDaemon = future {
-      SparkSubmit.main(defaultArgs ++ args)
+      try {
+        SparkSubmit.main(defaultArgs ++ args)
+      } catch {
+        case e : java.lang.OutOfMemoryError => {
+	  checkMem()
+	}
+      }
     }
     checkConnection()
     checkMem()
