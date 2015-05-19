@@ -54,6 +54,7 @@ object Main {
       } catch {
         case e : java.lang.OutOfMemoryError => {
 	  checkMem()
+	  throw e
 	}
       }
     }
